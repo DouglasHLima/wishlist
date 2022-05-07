@@ -29,9 +29,9 @@ public class AddWishTest {
     private String request;
     private ResultActions result;
 
-    @Given("I am a user logged in with id {string} i want to add the product: {string} to my wish list")
-    public void iAmAUserLoggedInWithIdIWantToAddTheProductToMyWishList(String userId, String productId) throws JsonProcessingException {
-        request = createRequestJson(userId,productId);
+    @Given("I am a user logged in, i want to add the product: {string} to my wish list")
+    public void iAmAUserLoggedInWithIdIWantToAddTheProductToMyWishList(String productId) throws JsonProcessingException {
+        request = createRequestJson(productId);
     }
 
     @When("perform a POST to endpoint {string}")
@@ -56,9 +56,8 @@ public class AddWishTest {
         }
     }
 
-    private String createRequestJson(String userId, String productId) throws JsonProcessingException {
+    private String createRequestJson(String productId) throws JsonProcessingException {
         var request = mapper.createObjectNode();
-        request.put("user", userId);
         request.put("product", productId);
         return mapper.writeValueAsString(request);
     }
