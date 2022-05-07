@@ -1,11 +1,13 @@
-package com.doughlima.wishlist.gateway.controller;
+package com.doughlima.wishlist.gateways.controllers;
 
 import com.doughlima.wishlist.domains.Wish;
-import com.doughlima.wishlist.gateway.controller.request.WishRequest;
-import com.doughlima.wishlist.gateway.controller.response.WishResponse;
+import com.doughlima.wishlist.gateways.controllers.assemblers.WishModelAssembler;
+import com.doughlima.wishlist.gateways.controllers.requests.WishRequest;
+import com.doughlima.wishlist.gateways.controllers.responses.WishResponse;
 import com.doughlima.wishlist.usecases.CreateWish;
 import com.doughlima.wishlist.usecases.FindWish;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
@@ -13,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(
@@ -25,6 +29,7 @@ public class WishController {
 
     private final CreateWish createWish;
     private final FindWish findWish;
+    private final WishModelAssembler assembler;
 
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -34,22 +39,18 @@ public class WishController {
             @Valid @RequestBody WishRequest wishRequest) {
         Wish wish = wishRequest.toDomain();
         Wish wishSaved = createWish.execute(userId,wish);
-        WishResponse response = new WishResponse(wishSaved);
-        response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(WishController.class).findWish(response.getUser(),response.getProduct())).withSelfRel());
-        return ResponseEntity.created(response.getRequiredLink(IanaLinkRelations.SELF).toUri())
+        WishResponse response = assembler.toModel(wishSaved);
+        return ResponseEntity
+                .created(response.getRequiredLink(IanaLinkRelations.COLLECTION).toUri())
                 .body(response);
     }
 
-    @GetMapping(
-            value = "/{productId}"
-    )
-    public ResponseEntity<WishResponse> findWish(
-            @PathVariable("userId") UUID userId,
-            @PathVariable("productId") UUID productId
+    @GetMapping
+    public ResponseEntity<CollectionModel<WishResponse>> getAllWishes(
+            @PathVariable("userId") UUID userId
     ) {
-        Wish result = findWish.execute(userId,productId);
-        WishResponse response = new WishResponse(result);
-        return ResponseEntity.ok(response);
+        List<Wish> result = findWish.execute(userId);
+        return ResponseEntity.ok(assembler.toCollectionModel(result));
     }
 
 
