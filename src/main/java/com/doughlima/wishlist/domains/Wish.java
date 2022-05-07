@@ -9,7 +9,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class Wish {
-
     private UUID id;
     private UUID user;
     private UUID product;

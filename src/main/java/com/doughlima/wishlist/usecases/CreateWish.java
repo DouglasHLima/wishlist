@@ -1,7 +1,7 @@
 package com.doughlima.wishlist.usecases;
 
 import com.doughlima.wishlist.domains.Wish;
-import com.doughlima.wishlist.gateway.persistance.WishPersistenceGateway;
+import com.doughlima.wishlist.gateways.persistence.WishPersistenceGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

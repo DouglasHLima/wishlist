@@ -1,7 +1,7 @@
-package com.doughlima.wishlist.gateway.persistance.impl.mongo;
+package com.doughlima.wishlist.gateways.persistence.impl.mongo;
 
 import com.doughlima.wishlist.domains.Wish;
-import com.doughlima.wishlist.gateway.persistance.WishPersistenceGateway;
+import com.doughlima.wishlist.gateways.persistence.WishPersistenceGateway;
 import org.springframework.stereotype.Component;
 
 @Component

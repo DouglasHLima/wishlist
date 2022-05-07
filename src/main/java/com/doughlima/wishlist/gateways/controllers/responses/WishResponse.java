@@ -1,4 +1,4 @@
-package com.doughlima.wishlist.gateway.controller.response;
+package com.doughlima.wishlist.gateways.controllers.responses;
 
 import com.doughlima.wishlist.domains.Wish;
 import lombok.Getter;

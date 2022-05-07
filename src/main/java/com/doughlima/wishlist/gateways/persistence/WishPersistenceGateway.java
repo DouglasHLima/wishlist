@@ -1,4 +1,4 @@
-package com.doughlima.wishlist.gateway.persistance;
+package com.doughlima.wishlist.gateways.persistence;
 
 import com.doughlima.wishlist.domains.Wish;
 
