@@ -10,7 +10,7 @@ Feature: Add a Wish
     And must display '<errors>' errors
 
     Examples:
-      | sceneDescription                  | expectedResult | errors | userId                               | productId                            |
-      | add product with success          | 201            | 0      | f3882d8d-199c-46d2-8944-936f13645598 | 6ca5e761-7068-4414-8693-b4144272ad7e |
-      | error on add without productId    | 400            | 1      | f3882d8d-199c-46d2-8944-936f13645598 |                                      |
-      | bad request on add without userId | 404            | 1      |                                      | 6ca5e761-7068-4414-8693-b4144272ad7e |
+      | sceneDescription                     | expectedResult | errors | userId                               | productId                            |
+      | Add product with success             | 201            | 0      | f3882d8d-199c-46d2-8944-936f13645598 | 6ca5e761-7068-4414-8693-b4144272ad7e |
+      | Bad request on add without productId | 400            | 1      | f3882d8d-199c-46d2-8944-936f13645598 |                                      |
+      | Not found on add without userId      | 404            | 0      |                                      | 6ca5e761-7068-4414-8693-b4144272ad7e |
