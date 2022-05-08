@@ -1,5 +1,7 @@
 package com.doughlima.wishlist.gateways.controllers.handlers;
 
+import com.doughlima.wishlist.domains.ValidationError;
+import com.doughlima.wishlist.exceptions.BusinessValidationException;
 import com.doughlima.wishlist.gateways.controllers.responses.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -20,6 +22,15 @@ public class WishControllerAdvice {
         val errorMessages = exception.getFieldErrors()
                 .stream()
                 .map(this::mapToErrorMessage)
+                .collect(Collectors.toList());
+        return ResponseEntity.badRequest().body(new ErrorResponse(errorMessages));
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleBusinessValidationException(BusinessValidationException exception) {
+        val errorMessages = exception.getValidationErrors()
+                .stream()
+                .map(ValidationError::toString)
                 .collect(Collectors.toList());
         return ResponseEntity.badRequest().body(new ErrorResponse(errorMessages));
     }

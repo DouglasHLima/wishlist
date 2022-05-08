@@ -12,4 +12,6 @@ public interface WishPersistenceGateway {
     List<Wish> getAll(UUID userId);
 
     boolean existsById(UUID userId, UUID productId);
+
+    void deleteById(UUID userId, UUID productId);
 }

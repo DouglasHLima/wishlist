@@ -6,6 +6,7 @@ import com.doughlima.wishlist.gateways.controllers.requests.WishRequest;
 import com.doughlima.wishlist.gateways.controllers.responses.TheProductIsOnListResponse;
 import com.doughlima.wishlist.gateways.controllers.responses.WishResponse;
 import com.doughlima.wishlist.usecases.CreateWish;
+import com.doughlima.wishlist.usecases.DeleteWish;
 import com.doughlima.wishlist.usecases.ExistsWishById;
 import com.doughlima.wishlist.usecases.GetAllWish;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class WishController {
     private final GetAllWish getAllWish;
     private final WishModelAssembler assembler;
     private final ExistsWishById existsWishById;
+    private final DeleteWish deleteWish;
 
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -61,6 +63,15 @@ public class WishController {
     ) {
         boolean result = existsWishById.execute(userId,productId);
         return ResponseEntity.ok().body(new TheProductIsOnListResponse(result));
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Void> deleteWish(
+            @PathVariable("userId") UUID userId,
+            @PathVariable("productId") UUID productId
+    ) {
+        deleteWish.execute(userId, productId);
+        return ResponseEntity.noContent().build();
     }
 
 
