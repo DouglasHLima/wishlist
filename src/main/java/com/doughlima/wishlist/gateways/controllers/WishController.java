@@ -3,13 +3,14 @@ package com.doughlima.wishlist.gateways.controllers;
 import com.doughlima.wishlist.domains.Wish;
 import com.doughlima.wishlist.gateways.controllers.assemblers.WishModelAssembler;
 import com.doughlima.wishlist.gateways.controllers.requests.WishRequest;
+import com.doughlima.wishlist.gateways.controllers.responses.TheProductIsOnListResponse;
 import com.doughlima.wishlist.gateways.controllers.responses.WishResponse;
 import com.doughlima.wishlist.usecases.CreateWish;
-import com.doughlima.wishlist.usecases.FindWish;
+import com.doughlima.wishlist.usecases.ExistsWishById;
+import com.doughlima.wishlist.usecases.GetAllWish;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(
@@ -28,8 +28,9 @@ import java.util.stream.Collectors;
 public class WishController {
 
     private final CreateWish createWish;
-    private final FindWish findWish;
+    private final GetAllWish getAllWish;
     private final WishModelAssembler assembler;
+    private final ExistsWishById existsWishById;
 
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -49,9 +50,19 @@ public class WishController {
     public ResponseEntity<CollectionModel<WishResponse>> getAllWishes(
             @PathVariable("userId") UUID userId
     ) {
-        List<Wish> result = findWish.execute(userId);
+        List<Wish> result = getAllWish.execute(userId);
         return ResponseEntity.ok(assembler.toCollectionModel(result));
     }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<TheProductIsOnListResponse> hasProductOnWishList(
+            @PathVariable("userId") UUID userId,
+            @PathVariable("productId") UUID productId
+    ) {
+        boolean result = existsWishById.execute(userId,productId);
+        return ResponseEntity.ok().body(new TheProductIsOnListResponse(result));
+    }
+
 
 
 }
