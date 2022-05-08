@@ -18,7 +18,7 @@ public class WishModelAssembler implements RepresentationModelAssembler<Wish, Wi
     public WishResponse toModel(Wish entity) {
         WishResponse response = new WishResponse(entity);
         return response.add(
-                linkTo(methodOn(WishController.class).getAllWishes(response.getUser())).withRel(IanaLinkRelations.COLLECTION)
+                linkTo(methodOn(WishController.class).getAllWishes(entity.getUser())).withRel(IanaLinkRelations.COLLECTION)
         );
     }
 
