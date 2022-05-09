@@ -2,38 +2,42 @@ package com.doughlima.wishlist.gateways.persistence.impl.mongo;
 
 import com.doughlima.wishlist.domains.Wish;
 import com.doughlima.wishlist.gateways.persistence.WishPersistenceGateway;
+import com.doughlima.wishlist.gateways.persistence.impl.mongo.entities.WishEntity;
+import com.doughlima.wishlist.gateways.persistence.impl.mongo.repositories.WishRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Profile("prod")
 @Component
+@RequiredArgsConstructor
 public class WishPersistanceGatewayImpl implements WishPersistenceGateway {
 
-    private final List<Wish> wishes = new ArrayList<>();
+    private final WishRepository repository;
+
     @Override
     public Wish save(Wish wish) {
-        wishes.add(wish);
-        return wish;
+        WishEntity saved = repository.save(new WishEntity(wish));
+        return saved.toDomain();
     }
 
     @Override
     public List<Wish> getAll(UUID userId) {
-        return wishes;
+        List<WishEntity> result = repository.findAllByUser(userId);
+        return result.stream().map(WishEntity::toDomain).collect(Collectors.toList());
     }
 
     @Override
     public boolean existsById(UUID userId, UUID productId) {
-        return wishes.stream().anyMatch((wish -> wish.getProduct().equals(productId) && wish.getUser().equals(userId)));
+        return repository.existsByUserAndProduct(userId, productId);
     }
 
     @Override
     public void deleteById(UUID userId, UUID productId) {
-        List<Wish> collect = wishes.stream()
-                .filter(wish -> wish.getProduct().equals(productId) && wish.getUser().equals(userId))
-                .collect(Collectors.toList());
-        wishes.removeAll(collect);
+        repository.deleteByUserAndProduct(userId, productId);
     }
 }
