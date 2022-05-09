@@ -2,7 +2,6 @@ package com.doughlima.wishlist.bdd.steps;
 
 import com.doughlima.wishlist.bdd.steps.utils.Mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,13 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
 public class AddWishTest {
@@ -27,10 +25,10 @@ public class AddWishTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    Mapper mapper;
-
+    private Mapper mapper;
     private String request;
     private ResultActions result;
+
 
     @Given("I am a user logged in, i want to add the product: {string} to my wish list")
     public void add_the_product_to_my_wishList(String productId) throws JsonProcessingException {
@@ -53,7 +51,7 @@ public class AddWishTest {
     @And("must display {string} errors")
     public void must_display_this_quantity_of_errors(String errors) throws Exception {
         int errorQuantity = Integer.parseInt(errors);
-        if (errorQuantity>0) {
+        if (errorQuantity > 0) {
             result.andExpect(jsonPath("$.errors.size()", equalTo(errorQuantity)));
         }
     }
