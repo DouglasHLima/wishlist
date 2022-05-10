@@ -1,8 +1,7 @@
 package com.doughlima.wishlist.usecases.validators;
 
+import com.doughlima.wishlist.domains.MessageCode;
 import com.doughlima.wishlist.domains.ValidationError;
-import com.doughlima.wishlist.domains.Wish;
-import com.doughlima.wishlist.gateways.persistence.WishPersistenceGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,8 +21,8 @@ public class BasicValidator {
             validationErrors.add(
                     ValidationError
                     .builder()
-                    .keyMessage("user-constraint")
-                    .params(List.of("user can't be null"))
+                    .keyMessage(MessageCode.REQUIRED_FIELD)
+                    .params(List.of(MessageCode.USER_FIELD))
                     .build()
             );
         }
@@ -31,8 +30,8 @@ public class BasicValidator {
             validationErrors.add(
                     ValidationError
                     .builder()
-                    .keyMessage("product-constraint")
-                    .params(List.of("product can't be null"))
+                    .keyMessage(MessageCode.REQUIRED_FIELD)
+                    .params(List.of(MessageCode.PRODUCT_FIELD))
                     .build()
             );
         }

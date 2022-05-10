@@ -1,5 +1,6 @@
 package com.doughlima.wishlist.usecases;
 
+import com.doughlima.wishlist.domains.MessageCode;
 import com.doughlima.wishlist.domains.ValidationError;
 import com.doughlima.wishlist.exceptions.BusinessValidationException;
 import com.doughlima.wishlist.gateways.persistence.WishPersistenceGateway;
@@ -24,7 +25,11 @@ public class DeleteWish {
             throw new BusinessValidationException(validationErrors);
         }
         if (!existsWishById.execute(userId, productId)) {
-            ValidationError validationError = ValidationError.builder().build();
+            ValidationError validationError = ValidationError
+                    .builder()
+                    .keyMessage(MessageCode.RESOURCE_NOT_EXISTS)
+                    .params(List.of(MessageCode.RESOURCE_NOT_EXISTS_USER_PRODUCT,userId,productId))
+                    .build();
             throw new BusinessValidationException(validationError);
         }
         persistence.deleteById(userId, productId);

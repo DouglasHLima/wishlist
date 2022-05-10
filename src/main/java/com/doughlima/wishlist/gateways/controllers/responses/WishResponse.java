@@ -1,6 +1,7 @@
 package com.doughlima.wishlist.gateways.controllers.responses;
 
 import com.doughlima.wishlist.domains.Wish;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
@@ -13,7 +14,6 @@ import java.util.UUID;
 @Setter
 @Relation(value = "wish", collectionRelation = "wishes")
 public class WishResponse extends RepresentationModel<WishResponse> {
-
     private UUID product;
     private LocalDateTime createdAt;
 

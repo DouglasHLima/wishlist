@@ -17,10 +17,9 @@ public class ExistsWishById {
     private final BasicValidator basicValidator;
     private final WishPersistenceGateway persistence;
     public boolean execute(UUID userId, UUID productId) {
-        List<ValidationError> validate = basicValidator.validate(userId, productId);
-        if (!validate.isEmpty()) {
-            ValidationError validationError = ValidationError.builder().build();
-            throw new BusinessValidationException(validationError);
+        List<ValidationError> validationErrors = basicValidator.validate(userId, productId);
+        if (!validationErrors.isEmpty()) {
+            throw new BusinessValidationException(validationErrors);
         }
         return persistence.existsById(userId,productId);
     }

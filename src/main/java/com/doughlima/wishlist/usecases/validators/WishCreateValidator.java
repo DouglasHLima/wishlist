@@ -1,5 +1,6 @@
 package com.doughlima.wishlist.usecases.validators;
 
+import com.doughlima.wishlist.domains.MessageCode;
 import com.doughlima.wishlist.domains.ValidationError;
 import com.doughlima.wishlist.domains.Wish;
 import com.doughlima.wishlist.gateways.persistence.WishPersistenceGateway;
@@ -24,8 +25,8 @@ public class WishCreateValidator {
             validationErrors.add(
                     ValidationError
                             .builder()
-                            .keyMessage("size-constraint")
-                            .params(List.of("max size of wishlist is "+ MAX_SIZE_WISHLIST))
+                            .keyMessage(MessageCode.MAX_SIZE_CONSTRAINT)
+                            .params(List.of(MessageCode.MAX_SIZE_CONSTRAINT_MESSAGE))
                             .build()
             );
         }
