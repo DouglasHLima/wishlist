@@ -3,7 +3,7 @@ package com.doughlima.wishlist.gateways.controllers;
 import com.doughlima.wishlist.domains.Wish;
 import com.doughlima.wishlist.gateways.controllers.assemblers.WishModelAssembler;
 import com.doughlima.wishlist.gateways.controllers.requests.WishRequest;
-import com.doughlima.wishlist.gateways.controllers.responses.TheProductIsOnListResponse;
+import com.doughlima.wishlist.gateways.controllers.responses.ProductIsOnListResponse;
 import com.doughlima.wishlist.gateways.controllers.responses.WishResponse;
 import com.doughlima.wishlist.usecases.CreateWish;
 import com.doughlima.wishlist.usecases.DeleteWish;
@@ -39,7 +39,8 @@ public class WishController {
     )
     public ResponseEntity<WishResponse> createWish(
             @PathVariable("userId") UUID userId,
-            @Valid @RequestBody WishRequest wishRequest) {
+            @Valid @RequestBody WishRequest wishRequest
+    ){
         Wish wish = wishRequest.toDomain();
         Wish wishSaved = createWish.execute(userId,wish);
         WishResponse response = assembler.toModel(wishSaved);
@@ -57,12 +58,12 @@ public class WishController {
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<TheProductIsOnListResponse> hasProductOnWishList(
+    public ResponseEntity<ProductIsOnListResponse> hasProductOnWishList(
             @PathVariable("userId") UUID userId,
             @PathVariable("productId") UUID productId
     ) {
         boolean result = existsWishById.execute(userId,productId);
-        return ResponseEntity.ok().body(new TheProductIsOnListResponse(result));
+        return ResponseEntity.ok().body(new ProductIsOnListResponse(result));
     }
 
     @DeleteMapping("/{productId}")
@@ -73,7 +74,5 @@ public class WishController {
         deleteWish.execute(userId, productId);
         return ResponseEntity.noContent().build();
     }
-
-
 
 }

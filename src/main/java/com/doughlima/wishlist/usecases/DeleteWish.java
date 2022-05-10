@@ -15,13 +15,11 @@ public class DeleteWish {
     private final WishPersistenceGateway persistence;
     private final ExistsWishById existsWishById;
 
-
     public void execute(UUID userId, UUID productId) {
         if (!existsWishById.execute(userId, productId)) {
             ValidationError validationError = ValidationError.builder().build();
             throw new BusinessValidationException(validationError);
         }
-
         persistence.deleteById(userId, productId);
     }
 }

@@ -11,7 +11,6 @@ import java.util.UUID;
 public class ExistsWishById {
 
     private final WishPersistenceGateway persistence;
-
     public boolean execute(UUID userId, UUID productId) {
         return persistence.existsById(userId,productId);
     }

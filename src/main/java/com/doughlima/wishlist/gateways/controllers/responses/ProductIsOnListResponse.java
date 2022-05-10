@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class TheProductIsOnListResponse {
+public class ProductIsOnListResponse {
     @JsonProperty("is-present")
     private Boolean isPresent;
 }

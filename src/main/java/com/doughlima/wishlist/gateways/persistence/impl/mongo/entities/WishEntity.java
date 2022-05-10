@@ -16,7 +16,6 @@ import java.util.UUID;
 @Document(collection = "wish")
 @NoArgsConstructor
 public class WishEntity {
-
     @Id
     private ObjectId id;
     @Field(targetType = FieldType.STRING)
