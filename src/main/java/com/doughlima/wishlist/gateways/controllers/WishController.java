@@ -94,7 +94,7 @@ public class WishController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteWish(
+    public ResponseEntity<?> deleteWish(
             @PathVariable("userId") UUID userId,
             @PathVariable("productId") UUID productId
     ) {
