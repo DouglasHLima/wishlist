@@ -11,8 +11,7 @@ import java.util.UUID;
 @Repository
 public interface WishRepository extends MongoRepository<WishEntity, ObjectId> {
     List<WishEntity> findAllByUser(UUID userId);
-
     boolean existsByUserAndProduct(UUID userId, UUID productId);
-
     void deleteByUserAndProduct(UUID userId, UUID productId);
+    long countByUser(UUID userID);
 }
