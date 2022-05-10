@@ -38,7 +38,7 @@ body:
       "product": "4d2e1274-16ac-40b6-a6cd-9cfc0f05303d"
     }
 ```
-Note: the wishlist allows only 20 items per user
+>Note: the wishlist allows only 20 items per user
 
 ### REMOVE
     feature: REMOVE a item of user wishlist
@@ -48,7 +48,7 @@ Note: the wishlist allows only 20 items per user
     path-variable: productId must be a UUID
     response-status: 203 NO-CONTENT
 
-Note: invalid params should be return status 400 and error on body message.
+>Note: invalid params should be return status 400 and error on body message.
 
 ### CONSULT ALL
     feature: GetAll itens from a user wishlist
@@ -57,7 +57,7 @@ Note: invalid params should be return status 400 and error on body message.
     path-variable: userId must be a UUID
     response-status: 200 ok
 
-Note: A empty list will be returned when user not found.
+>Note: A empty list will be returned when user not found.
 
 ### CONSULT IF A PRODUCT IS ON USER WISHLIST
     feature: verify if a produt is present on user wishlist
