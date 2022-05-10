@@ -11,15 +11,16 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class WishListSizeValidator {
+public class WishCreateValidator {
 
     private final Integer MAX_SIZE_WISHLIST = 20;
     private final WishPersistenceGateway persistance;
+    private final BasicValidator basicValidator;
 
     public List<ValidationError> validate(Wish wish) {
-        List<ValidationError> validationErrors = new ArrayList<>();
-        long wishQuantity = persistance.countByUser(wish.getUser());
-        if (wishQuantity >= MAX_SIZE_WISHLIST) {
+        List<ValidationError> validationErrors = basicValidator.validate(wish.getUser(),wish.getProduct());
+
+        if (persistance.countByUser(wish.getUser()) >= MAX_SIZE_WISHLIST) {
             validationErrors.add(
                     ValidationError
                             .builder()
@@ -28,6 +29,7 @@ public class WishListSizeValidator {
                             .build()
             );
         }
+
         return validationErrors;
     }
 

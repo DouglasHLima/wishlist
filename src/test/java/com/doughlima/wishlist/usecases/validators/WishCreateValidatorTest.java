@@ -3,28 +3,30 @@ package com.doughlima.wishlist.usecases.validators;
 import com.doughlima.wishlist.domains.ValidationError;
 import com.doughlima.wishlist.domains.Wish;
 import com.doughlima.wishlist.gateways.persistence.WishPersistenceGateway;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class WishListSizeValidatorTest {
+class WishCreateValidatorTest {
 
     @Mock
     WishPersistenceGateway wishPersistence;
+    @Mock
+    BasicValidator basicValidator;
     @InjectMocks
-    WishListSizeValidator validator;
+    WishCreateValidator validator;
 
     @Test
     void when_listSize_is_less_than_limit_no_errors_should_be_returned() {
@@ -35,12 +37,13 @@ class WishListSizeValidatorTest {
                 .build();
 
         //when
-        Mockito.when(wishPersistence.countByUser(wish.getUser())).thenReturn(19L);
+        when(wishPersistence.countByUser(wish.getUser())).thenReturn(19L);
+        when(basicValidator.validate(any(),any())).thenReturn(new ArrayList<>());
 
         //then
         List<ValidationError> validate = validator.validate(wish);
 
-        Assertions.assertThat(validate).isEqualTo(Collections.emptyList());
+        assertThat(validate).isEqualTo(Collections.emptyList());
     }
 
     @Test
@@ -52,11 +55,13 @@ class WishListSizeValidatorTest {
                 .build();
 
         //when
-        Mockito.when(wishPersistence.countByUser(wish.getUser())).thenReturn(20L);
+        when(wishPersistence.countByUser(wish.getUser())).thenReturn(20L);
+        when(basicValidator.validate(any(),any())).thenReturn(new ArrayList<>());
 
         //then
         List<ValidationError> validate = validator.validate(wish);
 
-        Assertions.assertThat(validate.size()).isEqualTo(1);
+        assertThat(validate.size()).isEqualTo(1);
     }
+
 }

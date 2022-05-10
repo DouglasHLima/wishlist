@@ -3,7 +3,7 @@ package com.doughlima.wishlist.usecases;
 import com.doughlima.wishlist.domains.Wish;
 import com.doughlima.wishlist.exceptions.BusinessValidationException;
 import com.doughlima.wishlist.gateways.persistence.WishPersistenceGateway;
-import com.doughlima.wishlist.usecases.validators.WishListSizeValidator;
+import com.doughlima.wishlist.usecases.validators.WishCreateValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class CreateWish {
 
     private final WishPersistenceGateway wishPersistence;
-    private final WishListSizeValidator validator;
+    private final WishCreateValidator validator;
 
     public Wish execute(UUID userId, Wish wish) {
         wish.setUser(userId);

@@ -60,10 +60,4 @@ public class AddWishValidator {
     public void theSystemShouldReturnTheStatusCodeBadRequest(int statusCode) throws Exception {
         result.andExpect(status().is(equalTo(statusCode)));
     }
-
-    @And("user GET user wishlist on endpoint {string} must be {int} products on size.")
-    public void userWishlistMustBeProductsOnSize(String endpoint, int listSize) throws Exception {
-        mockMvc.perform(get(endpoint))
-                .andExpect(jsonPath("$._embedded.wishes.size()", equalTo(listSize)));
-    }
 }

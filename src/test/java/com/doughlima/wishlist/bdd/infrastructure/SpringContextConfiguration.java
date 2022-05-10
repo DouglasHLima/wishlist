@@ -1,4 +1,4 @@
-package com.doughlima.wishlist.bdd.infraestructure;
+package com.doughlima.wishlist.bdd.infrastructure;
 
 
 import io.cucumber.spring.CucumberContextConfiguration;
