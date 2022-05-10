@@ -13,7 +13,7 @@ public enum MessageCode {
     MAX_SIZE_CONSTRAINT("max.size.constraint"),
     MAX_SIZE_CONSTRAINT_MESSAGE("max.size.constraint.message"),
     RESOURCE_NOT_EXISTS("resources.not.exists"),
-    RESOURCE_NOT_EXISTS_USER_PRODUCT("resources.not.exixts.user.product");
+    RESOURCE_NOT_EXISTS_USER_PRODUCT("resources.not.exists.user.product");
 
 
     private final String code;
