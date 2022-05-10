@@ -33,10 +33,15 @@ public class PersistenceGatewayMock implements WishPersistenceGateway {
 
     @Override
     public void deleteById(UUID userId, UUID productId) {
-        List<Wish> collect = wishes.stream()
+        List<Wish> collected = wishes.stream()
                 .filter(wish -> wish.getProduct().equals(productId) && wish.getUser().equals(userId))
                 .collect(Collectors.toList());
-        wishes.removeAll(collect);
+        wishes.removeAll(collected);
+    }
+
+    @Override
+    public long countByUser(UUID user) {
+        return wishes.stream().filter(wish -> wish.getUser().equals(user)).count();
     }
 
 }

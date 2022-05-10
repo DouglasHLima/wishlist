@@ -15,29 +15,31 @@ import java.util.stream.Collectors;
 @Profile("prod")
 @Component
 @RequiredArgsConstructor
-public class WishPersistanceGatewayImpl implements WishPersistenceGateway {
-
+public class WishPersistenceGatewayImpl implements WishPersistenceGateway {
     private final WishRepository repository;
-
     @Override
     public Wish save(Wish wish) {
         WishEntity saved = repository.save(new WishEntity(wish));
         return saved.toDomain();
     }
-
     @Override
     public List<Wish> getAll(UUID userId) {
         List<WishEntity> result = repository.findAllByUser(userId);
         return result.stream().map(WishEntity::toDomain).collect(Collectors.toList());
     }
-
     @Override
     public boolean existsById(UUID userId, UUID productId) {
         return repository.existsByUserAndProduct(userId, productId);
     }
-
     @Override
     public void deleteById(UUID userId, UUID productId) {
         repository.deleteByUserAndProduct(userId, productId);
     }
+
+    @Override
+    public long countByUser(UUID user) {
+        return repository.countByUser(user);
+    }
+
+
 }

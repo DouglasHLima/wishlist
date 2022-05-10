@@ -4,23 +4,22 @@ import com.doughlima.wishlist.domains.ValidationError;
 import com.doughlima.wishlist.domains.Wish;
 import com.doughlima.wishlist.gateways.persistence.WishPersistenceGateway;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class CreateWishValidator {
+public class WishListSizeValidator {
 
     private final Integer MAX_SIZE_WISHLIST = 20;
     private final WishPersistenceGateway persistance;
 
     public List<ValidationError> validate(Wish wish) {
         List<ValidationError> validationErrors = new ArrayList<>();
-        List<Wish> wishList = persistance.getAll(wish.getUser());
-        if (wishList.size() >= MAX_SIZE_WISHLIST) {
+        long wishQuantity = persistance.countByUser(wish.getUser());
+        if (wishQuantity >= MAX_SIZE_WISHLIST) {
             validationErrors.add(
                     ValidationError
                             .builder()
